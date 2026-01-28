@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>News Portal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>📢 News & Announcements</h1>
+</header>
+
+<nav>
+    <button onclick="filterType('All')">Tất cả</button>
+    <button onclick="filterType('NCKH')">NCKH</button>
+    <button onclick="filterType('Contest')">Contest</button>
+    <button onclick="filterType('Announcement')">Announcement</button>
+</nav>
+
+<main id="news-container">
+    <!-- News cards will appear here -->
+</main>
+
+<footer>
+    © 2026 - My GitHub News Page
+</footer>
+
+<!-- PapaParse CSV Reader -->
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>
