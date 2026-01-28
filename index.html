@@ -1,34 +1,89 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <title>News Portal</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>ICTU News Portal</title>
+
+<!-- Bootstrap 5 -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- PapaParse CSV -->
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+<!-- Markdown -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+<style>
+    body { background:#f4f6f9; }
+    .news-item { cursor:pointer; 
+    border-radius: 6px;
+    border-bottom: 1px solid #dee2e6;  /* đường kẻ phân cách */}
+	.news-item:hover {
+    background-color: #f8f9fa;}
+    .news-new { background:#fff3cd; border-left:5px solid #ff9800; }
+    .news-normal { border-left:5px solid #0d6efd; }
+	.news-item .card-body {
+    padding-top: 12px;
+    padding-bottom: 12px;}
+</style>
 </head>
 <body>
 
-<header>
-    <h1>📢 News & Announcements</h1>
-</header>
-
-<nav>
-    <button onclick="filterType('All')">Tất cả</button>
-    <button onclick="filterType('NCKH')">NCKH</button>
-    <button onclick="filterType('Contest')">Contest</button>
-    <button onclick="filterType('Announcement')">Announcement</button>
+<!-- ===== HEADER ===== -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+  <div class="container-fluid">
+    <a class="navbar-brand d-flex align-items-center" href="#">
+      <img src="logo.png" width="45" height="45" class="me-2">
+      <div>
+        <div class="fw-bold">THAI NGUYEN UNIVERSITY</div>
+        <small>OF INFORMATION AND COMMUNICATION TECHNOLOGY</small>
+      </div>
+    </a>
+    <button class="btn btn-warning btn-sm ms-auto">🔐 Login</button>
+  </div>
 </nav>
 
-<main id="news-container">
-    <!-- News cards will appear here -->
-</main>
+<!-- ===== MENU FILTER ===== -->
+<div class="bg-light py-2 text-center shadow-sm">
+    <button class="btn btn-outline-primary btn-sm m-1" onclick="filterType('All')">🏠 Home</button>
+    <button class="btn btn-outline-primary btn-sm m-1" onclick="filterType('NCKH')">🔬 NCKH</button>
+    <button class="btn btn-outline-primary btn-sm m-1" onclick="filterType('Contest')">🏆 Contest</button>
+    <button class="btn btn-outline-primary btn-sm m-1" onclick="filterType('Announcement')">📢 Announcement</button>
+</div>
 
-<footer>
-    © 2026 - My GitHub News Page
+<!-- ===== NEWS LIST ===== -->
+<div class="container my-4">
+    <div id="news-container"></div>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer class="bg-primary text-white text-center py-2">
+© 2026 - Thai Nguyen University of Information and Communication Technology
 </footer>
 
-<!-- PapaParse CSV Reader -->
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-<script src="script.js"></script>
+<!-- ===== MODAL ===== -->
+<div class="modal fade" id="newsModal" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal-title"></h5>
+        <div>
+          <button class="btn btn-warning btn-sm me-2" onclick="copyNewsLink()">🔗 Copy link</button>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div id="modal-info" class="text-muted mb-2"></div>
+        <div id="modal-content"></div>
+      </div>
+    </div>
+  </div>
+</div>
 
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Main Script -->
+<script src="script.js"></script>
 </body>
 </html>
