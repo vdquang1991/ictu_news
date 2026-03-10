@@ -1,89 +1,119 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<title>ICTU News Portal</title>
-
-<!-- Bootstrap 5 -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-<!-- PapaParse CSV -->
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-
-<!-- Markdown -->
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-
-<style>
-    body { background:#f4f6f9; }
-    .news-item { cursor:pointer; 
-    border-radius: 6px;
-    border-bottom: 1px solid #dee2e6;  /* đường kẻ phân cách */}
-	.news-item:hover {background-color: #f8f9fa;}
-    .news-new { background:#fff3cd; border-left:5px solid #ff9800; }
-    .news-normal { border-left:5px solid #0d6efd; }
-	.news-item .card-body {padding-top: 12px;padding-bottom: 12px;}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bảng Thông Báo – ICTU</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
+    <!-- Top thin accent line -->
+    <div class="top-accent"></div>
 
-<!-- ===== HEADER ===== -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
-  <div class="container-fluid">
-    <a class="navbar-brand d-flex align-items-center" href="#">
-      <img src="logo.png" width="45" height="45" class="me-2">
-      <div>
-        <div class="fw-bold">THAI NGUYEN UNIVERSITY</div>
-        <small>OF INFORMATION AND COMMUNICATION TECHNOLOGY</small>
-      </div>
-    </a>
-    
-  </div>
-</nav>
-
-<!-- ===== MENU FILTER ===== -->
-<div class="bg-light py-2 text-center shadow-sm">
-    <button class="btn btn-outline-primary btn-sm m-1" onclick="filterType('All')">🏠 Home</button>
-    <button class="btn btn-outline-primary btn-sm m-1" onclick="filterType('NCKH')">🔬 NCKH</button>
-    <button class="btn btn-outline-primary btn-sm m-1" onclick="filterType('Contest')">🏆 Contest</button>
-    <button class="btn btn-outline-primary btn-sm m-1" onclick="filterType('Announcement')">📢 Announcement</button>
-</div>
-
-<!-- ===== NEWS LIST ===== -->
-<div class="container my-4">
-    <div id="news-container"></div>
-</div>
-
-<!-- ===== FOOTER ===== -->
-<footer class="bg-primary text-white text-center py-2">
-© 2026 - Thai Nguyen University of Information and Communication Technology
-</footer>
-
-<!-- ===== MODAL ===== -->
-<div class="modal fade" id="newsModal" tabindex="-1">
-  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modal-title"></h5>
-        <div>
-          <button class="btn btn-warning btn-sm me-2" onclick="copyNewsLink()">🔗 Copy link</button>
-          <button class="btn-close" data-bs-dismiss="modal"></button>
+    <header class="header">
+        <div class="container header-inner">
+            <a href="#" class="logo-area">
+                <div class="logo-box">
+                    <img src="assets/img/logo-ictu.png" alt="Logo ICTU" class="logo">
+                </div>
+                <div class="logo-text">
+                    <h1>ICTU</h1>
+                    <p>Trường ĐH Công nghệ thông tin & Truyền thông</p>
+                </div>
+            </a>
         </div>
-      </div>
-      <div class="modal-body">
-        <div id="modal-info" class="text-muted mb-2"></div>
-        <div id="modal-content"></div>
-      </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-bg-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+        </div>
+        <div class="container hero-content">
+            <div class="hero-label">
+                <svg viewBox="0 0 24 24" fill="currentColor" class="icon-sm"><path d="M12 2L22 7l-10 5L2 7l10-5zm0 10l10-5v9.5c0 1.5-3 4.5-10 6-7-1.5-10-4.5-10-6V7l10 5z"/></svg>
+                Kênh thông báo trực tuyến
+            </div>
+            <h2 class="hero-title">Bảng <span>Thông Báo</span></h2>
+            <p class="hero-desc">Cập nhật nhanh chóng và chính xác các tin tức đào tạo, tuyển sinh, sự kiện và học bổng mới nhất từ nhà trường.</p>
+        </div>
+    </section>
+
+    <main class="main-content container">
+        <div class="controls-wrapper">
+            <div class="controls-card">
+                <div class="search-wrap">
+                    <div class="input-icon-wrap">
+                        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.3-4.3"/></svg>
+                        <input type="text" id="searchInput" placeholder="Tìm kiếm nhanh thông báo, từ khóa...">
+                    </div>
+                    <button id="reloadBtn" class="btn btn-primary">
+                        <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                        Tải lại
+                    </button>
+                </div>
+                <div class="filter-section">
+                    <span class="filter-label">Phân loại:</span>
+                    <div class="filter-tags" id="tagsRow">
+                        <!-- Tags will be injected dynamically -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="results-info">
+            <span id="resultsCount">Đang tải dữ liệu...</span>
+        </div>
+
+        <div class="notification-grid" id="notifList">
+            <!-- Notifications will be injected dynamically -->
+        </div>
+    </main>
+
+    <!-- Modal Detail Notification -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <button class="modal-close" id="modalCloseBtn" aria-label="Đóng">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+            <div class="modal-header">
+                <div class="modal-header-bg"></div>
+                <div class="modal-meta" id="modalMetaRow"></div>
+                <h2 class="modal-title" id="modalTitleEl">Đang tải...</h2>
+            </div>
+            <div class="modal-body" id="modalContentEl">
+                <div class="loading-spinner"></div>
+            </div>
+            <div class="modal-footer">
+                <p class="shortcut-hint">Nhấn <kbd>Esc</kbd> để đóng</p>
+                <button class="btn btn-primary" id="modalCloseBotBtn">Xác nhận Đóng</button>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-inner">
+            <div class="footer-left">
+                <div class="footer-logo">
+                    <img src="assets/img/logo-ictu.png" alt="Logo ICTU">
+                </div>
+                <div>
+                    <h3>Trường Đại học Công nghệ thông tin & Truyền thông</h3>
+                    <p>Đại học Thái Nguyên – Việt Nam</p>
+                </div>
+            </div>
+            <div class="footer-right">
+                <p>&copy; <span id="footerYear"></span> Phát triển và duy trì bởi nhà trường.</p>
+                <p>Website: <a href="https://ictu.edu.vn" target="_blank">ictu.edu.vn</a></p>
+            </div>
+        </div>
+    </footer>
 
-<!-- Main Script -->
-<script src="script.js"></script>
-
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-
+    <script src="assets/js/app.js"></script>
+    <script>document.getElementById('footerYear').textContent = new Date().getFullYear();</script>
 </body>
 </html>
